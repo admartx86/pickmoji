@@ -1,32 +1,26 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import emojiData from "../../emojiData"
 
 export default function Home() {
 
-  const [listAllEmojis, setListAllEmojis] = useState([])
-
-  useEffect(() => {
-    fetch(`https://emoji-api.com/emojis?access_key=${process.env.NEXT_PUBLIC_EMOJI_API_ACCESS_KEY}`)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        setListAllEmojis(data)
-      })
-      .catch(console.error)
-  }
-  , [])
-
   return (
     <div>
-    <h1>Home</h1>
-    <ul>
-    {Array.isArray(listAllEmojis) && listAllEmojis.map((emoji, index) => (
-    <li key={index}>
-    {emoji.character} - {emoji.slug}
-    </li>
-    ))}
-    </ul>
+    <h1>⛏️ Pickmoji</h1>
+    {emojiData.map((category) => (
+  <div key={category.slug}>
+    <div>
+      <h2>{category.name}</h2>
+    </div>    
+    <div className="grid grid-cols-10">
+      {category.emojis.map((emoji, index) => (
+        <div key={index}>
+          {emoji.emoji}
+        </div>
+      ))}
+    </div>
+  </div>
+))}
     </div>
   )
 }
